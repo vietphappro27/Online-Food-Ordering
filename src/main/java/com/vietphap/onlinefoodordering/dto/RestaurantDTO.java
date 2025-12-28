@@ -1,4 +1,4 @@
-package com.vietphap.Online.Food.Ordering.dto;
+package com.vietphap.onlinefoodordering.dto;
 
 import java.util.List;
 

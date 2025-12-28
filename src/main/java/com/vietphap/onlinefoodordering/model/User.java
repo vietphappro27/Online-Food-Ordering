@@ -1,9 +1,9 @@
-package com.vietphap.Online.Food.Ordering.model;
+package com.vietphap.onlinefoodordering.model;
 
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vietphap.Online.Food.Ordering.dto.RestaurantDTO;
+import com.vietphap.onlinefoodordering.dto.RestaurantDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;

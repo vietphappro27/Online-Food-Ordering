@@ -1,4 +1,4 @@
-package com.vietphap.Online.Food.Ordering;
+package com.vietphap.onlinefoodordering;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

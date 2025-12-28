@@ -1,4 +1,4 @@
-package com.vietphap.Online.Food.Ordering.model;
+package com.vietphap.onlinefoodordering.model;
 
 public enum USER_ROLE {
     ROLE_CUSTOMER,

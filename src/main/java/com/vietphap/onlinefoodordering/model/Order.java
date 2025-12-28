@@ -1,4 +1,4 @@
-package com.vietphap.Online.Food.Ordering.model;
+package com.vietphap.onlinefoodordering.model;
 
 import java.util.Date;
 import java.util.List;
