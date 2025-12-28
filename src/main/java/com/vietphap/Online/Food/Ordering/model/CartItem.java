@@ -1,5 +1,7 @@
 package com.vietphap.Online.Food.Ordering.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -15,19 +17,22 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class IngredientItem {
+public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
-
-    @ManyToOne
-    private IngredientCategory category;
-
     @JsonIgnore
     @ManyToOne
-    private Restaurant restaurant;
+    private Cart cart;
 
-    private boolean inStoke = true;
+    @ManyToOne
+    private Food food;
+
+    private int quantity;
+
+    private List<String> ingredients;
+
+    private Long totalPrice;
+
 }

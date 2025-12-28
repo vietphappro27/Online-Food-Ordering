@@ -24,6 +24,7 @@ public class OrderItem {
     private Food food;
 
     private int quantity;
+
     private long totalPrice;
 
     private List<String> ingredients;
