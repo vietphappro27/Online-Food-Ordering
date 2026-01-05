@@ -1,4 +1,4 @@
-package com.vietphap.onlinefoodordering.config;
+package com.vietphap.Online.Food.Ordering.config;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,9 +1,9 @@
-package com.vietphap.onlinefoodordering.model;
+package com.vietphap.Online.Food.Ordering.model;
 
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vietphap.onlinefoodordering.dto.RestaurantDTO;
+import com.vietphap.Online.Food.Ordering.dto.RestaurantDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
@@ -31,7 +31,7 @@ public class User {
 
     private String password;
 
-    private USER_ROLE role;
+    private USER_ROLE role = USER_ROLE.ROLE_CUSTOMER;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")

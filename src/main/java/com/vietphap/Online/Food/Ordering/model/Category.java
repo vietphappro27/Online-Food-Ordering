@@ -1,6 +1,4 @@
-package com.vietphap.onlinefoodordering.model;
-
-import java.util.List;
+package com.vietphap.Online.Food.Ordering.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -17,22 +15,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItem {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String name;
+
     @JsonIgnore
     @ManyToOne
-    private Cart cart;
-
-    @ManyToOne
-    private Food food;
-
-    private int quantity;
-
-    private List<String> ingredients;
-
-    private Long totalPrice;
+    private Restaurant restaurant;
 
 }

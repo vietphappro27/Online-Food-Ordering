@@ -1,4 +1,4 @@
-package com.vietphap.onlinefoodordering.model;
+package com.vietphap.Online.Food.Ordering.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,15 +15,19 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
+public class IngredientItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
 
+    @ManyToOne
+    private IngredientCategory category;
+
     @JsonIgnore
     @ManyToOne
     private Restaurant restaurant;
 
+    private boolean inStoke = true;
 }

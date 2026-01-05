@@ -1,4 +1,4 @@
-package com.vietphap.onlinefoodordering.config;
+package com.vietphap.Online.Food.Ordering.config;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,13 +26,29 @@ public class AppConfig {
 
         http.sessionManagement(managment -> managment.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(Authorize -> Authorize
+                        // .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/api/admin/**").hasAnyRole("RESTAURANT_OWNER", "ADMIN")
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll())
                 .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));
-        return null;
+
+        return http.build();
+        // return null;
+
+        // test spi
+        // http.sessionManagement(managment ->
+        // managment.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        // .authorizeHttpRequests(Authorize -> Authorize
+        // .requestMatchers("/auth/**").permitAll()
+        // .requestMatchers("/api/admin/**").hasAnyRole("RESTAURANT_OWNER", "ADMIN")
+        // .requestMatchers("/api/**").authenticated()
+        // .anyRequest().permitAll())
+        // .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+        // .csrf(csrf -> csrf.disable())
+        // .cors(cors -> cors.configurationSource(corsConfigurationSource()));
+        // return http.build();
     }
 
     private CorsConfigurationSource corsConfigurationSource() {

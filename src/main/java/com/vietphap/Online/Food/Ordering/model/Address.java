@@ -1,4 +1,4 @@
-package com.vietphap.onlinefoodordering.model;
+package com.vietphap.Online.Food.Ordering.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
