@@ -27,6 +27,8 @@ public class AppConfig {
         http.sessionManagement(managment -> managment.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(Authorize -> Authorize
                         // .requestMatchers("/auth/**").permitAll()
+                        // .requestMatchers("/api/admin/**").hasAnyRole("ROLE_RESTAURANT_OWNER",
+                        // "ROLE_ADMIN")
                         .requestMatchers("/api/admin/**").hasAnyRole("RESTAURANT_OWNER", "ADMIN")
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll())
@@ -35,20 +37,6 @@ public class AppConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
         return http.build();
-        // return null;
-
-        // test spi
-        // http.sessionManagement(managment ->
-        // managment.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        // .authorizeHttpRequests(Authorize -> Authorize
-        // .requestMatchers("/auth/**").permitAll()
-        // .requestMatchers("/api/admin/**").hasAnyRole("RESTAURANT_OWNER", "ADMIN")
-        // .requestMatchers("/api/**").authenticated()
-        // .anyRequest().permitAll())
-        // .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
-        // .csrf(csrf -> csrf.disable())
-        // .cors(cors -> cors.configurationSource(corsConfigurationSource()));
-        // return http.build();
     }
 
     private CorsConfigurationSource corsConfigurationSource() {
