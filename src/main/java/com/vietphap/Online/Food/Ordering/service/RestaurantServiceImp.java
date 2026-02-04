@@ -16,8 +16,6 @@ import com.vietphap.Online.Food.Ordering.repository.RestaurantRepository;
 import com.vietphap.Online.Food.Ordering.repository.UserRepository;
 import com.vietphap.Online.Food.Ordering.request.CreateRestaurantRequest;
 
-import jakarta.persistence.Column;
-
 @Service
 public class RestaurantServiceImp implements RestaurantService {
 

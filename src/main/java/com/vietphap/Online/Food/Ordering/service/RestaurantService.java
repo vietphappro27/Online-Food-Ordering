@@ -21,10 +21,10 @@ public interface RestaurantService {
 
     public Restaurant findRestaurantById(Long restaurantId) throws Exception;
 
-    public Restaurant getRestaurantsByUserid(Long userId) throws Exception;
+    public Restaurant getRestaurantsByUserid(Long UserId) throws Exception;
 
     public RestaurantDTO addToFavorites(Long restaurantId, User user) throws Exception;
 
-    public Restaurant updateRestaurantStatus(Long restaurantId) throws Exception;
+    public Restaurant updateRestaurantStatus(Long id) throws Exception;
 
 }
