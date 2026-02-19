@@ -28,9 +28,6 @@ public class FoodController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private RestaurantService restaurantService;
-
     @GetMapping("/search")
     public ResponseEntity<List<Food>> getMethodName(@RequestParam String keyword,
             @RequestHeader("Authorization") String jwt) throws Exception {
