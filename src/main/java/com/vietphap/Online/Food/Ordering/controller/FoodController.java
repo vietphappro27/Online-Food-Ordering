@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vietphap.Online.Food.Ordering.model.Food;
 import com.vietphap.Online.Food.Ordering.model.User;
 import com.vietphap.Online.Food.Ordering.service.FoodService;
-import com.vietphap.Online.Food.Ordering.service.RestaurantService;
 import com.vietphap.Online.Food.Ordering.service.UserService;
 
 import org.springframework.web.bind.annotation.GetMapping;

@@ -5,45 +5,46 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vietphap.Online.Food.Ordering.model.Order;
 import com.vietphap.Online.Food.Ordering.model.User;
-import com.vietphap.Online.Food.Ordering.model.Category;
-import com.vietphap.Online.Food.Ordering.service.CategoryService;
+import com.vietphap.Online.Food.Ordering.request.OrderRequest;
+import com.vietphap.Online.Food.Ordering.service.OrderService;
 import com.vietphap.Online.Food.Ordering.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api")
-public class CategoryController {
+public class OrderController {
 
     @Autowired
-    private CategoryService categoryService;
+    private OrderService orderService;
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/admin/category")
-    public ResponseEntity<Category> createCategory(
-            @RequestBody Category category,
+    @PostMapping("/order/add")
+    public ResponseEntity<Order> createOrder(
+            @RequestBody OrderRequest req,
             @RequestHeader("Authorization") String jwt) throws Exception {
 
         User user = userService.findUserByJwtToken(jwt);
-        categoryService.createCategory(category.getName(), user.getId());
-        return new ResponseEntity<>(category, HttpStatus.CREATED);
+        Order order = orderService.createOrder(req, null);
+        return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
-    @GetMapping("/category/restaurant")
-    public ResponseEntity<List<Category>> getRestaurantCategory(
+    @GetMapping("/order/user")
+    public ResponseEntity<List<Order>> getOrderHistory(
             @RequestHeader("Authorization") String jwt) throws Exception {
 
         User user = userService.findUserByJwtToken(jwt);
-        List<Category> categories = categoryService.findCategoryByRestaurantId(user.getId());
-        return new ResponseEntity<>(categories, HttpStatus.CREATED);
+        List<Order> orders = orderService.getUserOrders(user.getId());
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
-
 }
