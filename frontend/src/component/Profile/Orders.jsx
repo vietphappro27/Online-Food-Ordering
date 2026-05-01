@@ -19,7 +19,7 @@ const Orders = () => {
       <h1 className='text-xl text-center py-7 font-semibold'> My Orders</h1>
       <div className='space-y-5 w-full lg:w-1/2'>
         {order.orders.map((order, idx) =>
-          order.items.map((item) => <OrderCard item={item} />),
+          order.items.map((item) => <OrderCard order={order} item={item} />),
         )}
       </div>
     </div>

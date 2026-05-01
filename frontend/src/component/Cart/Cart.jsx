@@ -59,7 +59,6 @@ const Cart = () => {
       order: {
         restaurantId: cart.cartItems[0].food?.restaurant.id,
         deliveryAddress: {
-          fullname: auth.user?.fullname,
           street: values.street,
           ward: values.ward,
           district: values.district,

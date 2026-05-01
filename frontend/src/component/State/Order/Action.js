@@ -32,7 +32,7 @@ export const getUserOrders = (jwt) => {
   return async (dispatch) => {
     dispatch({ type: GET_USER_ORDERS_REQUEST });
     try {
-      const response = await api.get(`/api/orders/user`, {
+      const response = await api.get(`/api/order/user`, {
         headers: { Authorization: `Bearer ${jwt}` },
       });
       console.log("get user orders", response.data);
