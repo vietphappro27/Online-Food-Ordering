@@ -1,0 +1,16 @@
+.banner{
+
+    background-image: url('https://images.pexels.com/photos/5876/food-salad-healthy-vegetables.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 90vh;
+}
+.cover{
+
+    width: 100%;
+    height: 90%;
+    background-color: black;
+    opacity: 0.4;
+
+}
