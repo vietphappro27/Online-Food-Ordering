@@ -44,12 +44,26 @@ const validationSchema = Yup.object().shape({
   pincode: Yup.string().required("Pincode is required"),
 });
 
-const items = [1, 1];
 const Cart = () => {
-  const createOrderUsingSelectedAddress = () => {};
   const [open, setOpen] = React.useState(false);
   const { cart, auth } = useSelector((store) => store);
   const dispatch = useDispatch();
+
+  const itemTotal = cart.cart?.total || 0;
+  const deliveryFee = itemTotal ? 33000 : 0;
+  const platformFee = itemTotal ? 2000 : 0;
+  const grandTotal = itemTotal + deliveryFee + platformFee;
+
+  const createOrderUsingSelectedAddress = (deliveryAddress) => {
+    const data = {
+      jwt: localStorage.getItem("jwt"),
+      order: {
+        restaurantId: cart.cartItems[0].food?.restaurant.id,
+        deliveryAddress: deliveryAddress,
+      },
+    };
+    dispatch(createOrder(data));
+  };
 
   const handleOpenAddressModal = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -59,6 +73,7 @@ const Cart = () => {
       order: {
         restaurantId: cart.cartItems[0].food?.restaurant.id,
         deliveryAddress: {
+          fullname: auth.user?.fullname,
           street: values.street,
           ward: values.ward,
           district: values.district,
@@ -78,28 +93,27 @@ const Cart = () => {
           {cart.cartItems.map((item, idx) => (
             <CartItem key={idx} item={item} />
           ))}
-          <CartItem />
           <Divider />
           <div className='billDetail px-5 text-sm'>
             <p className='font-extralight py-5'> Bill Detail</p>
             <div className='space-y-3'>
               <div className='flex justify-between text-gray-400'>
                 <p>Item Total</p>
-                <p>{cart.cart?.total}VND</p>
+                <p>{itemTotal} VND</p>
               </div>
               <div className='flex justify-between text-gray-400'>
                 <p>Deliver Fee Total</p>
-                <p>80.000VND</p>
+                <p>{deliveryFee} VND</p>
               </div>
               <div className='flex justify-between text-gray-400'>
                 <p>Plateform Fee</p>
-                <p>80.000VND</p>
+                <p>{platformFee} VND</p>
               </div>
               <Divider />
             </div>
             <div className='flex justify-between text-gray-400'>
               <p>Total</p>
-              <p>{cart.cart?.total}VND</p>
+              <p>{grandTotal} VND</p>
             </div>
           </div>
         </section>
@@ -110,7 +124,7 @@ const Cart = () => {
               Choose Delivery Address
             </h1>
             <div className='flex gap-5 flex-wrap justify-center'>
-              {[1, 1, 1, 1, 1].map((item, idx) => (
+              {auth.user?.addresses?.map((item, idx) => (
                 <AddressCard
                   key={idx}
                   handleSelectAddress={createOrderUsingSelectedAddress}

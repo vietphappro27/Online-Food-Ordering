@@ -1,5 +1,6 @@
 package com.vietphap.Online.Food.Ordering.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,11 @@ public class CartServiceImp implements CartService {
         Cart cart = cartRepository.findByCustomerId(user.getId());
 
         for (CartItem item : cart.getItems()) {
-            if (item.getFood().equals(food)) {
-                int newQuantity = item.getQuantity() + req.getQuantity();
-                return updateCartItemQuantity(item.getId(), newQuantity);
+            if (item.getFood().getId().equals(food.getId())) {
+                if (isSameIngredients(item.getIngredients(), req.getIngredients())) {
+                    int newQuantity = item.getQuantity() + req.getQuantity();
+                    return updateCartItemQuantity(item.getId(), newQuantity);
+                }
             }
         }
 
@@ -46,11 +49,21 @@ public class CartServiceImp implements CartService {
         newCartItem.setCart(cart);
         newCartItem.setQuantity(req.getQuantity());
         newCartItem.setIngredients(req.getIngredients());
-        newCartItem.setTotalPrice(req.getQuantity() + food.getPrice());
+        newCartItem.setTotalPrice(food.getPrice() * req.getQuantity());
 
         CartItem savedCartItem = cartItemRepository.save(newCartItem);
         cart.getItems().add(savedCartItem);
         return savedCartItem;
+    }
+
+    private boolean isSameIngredients(List<String> list1, List<String> list2) {
+        if ((list1 == null || list1.isEmpty()) && (list2 == null || list2.isEmpty())) {
+            return true;
+        }
+        if (list1 == null || list2 == null) {
+            return false;
+        }
+        return list1.size() == list2.size() && list1.containsAll(list2);
     }
 
     @Override

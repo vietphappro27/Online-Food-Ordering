@@ -12,8 +12,9 @@ const CartItem = ({ item }) => {
   const jwt = localStorage.getItem("jwt");
 
   const handleUpdateCartItem = (value) => {
-    if (value == -1 && item.quantity == 1) {
+    if (value === -1 && item.quantity <= 1) {
       handleRemoveItem();
+      return;
     }
     const data = { cartItemId: item.id, quantity: item.quantity + value };
     dispatch(updateCartItem(data, jwt));

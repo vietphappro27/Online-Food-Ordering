@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vietphap.Online.Food.Ordering.model.Order;
 import com.vietphap.Online.Food.Ordering.model.User;
 import com.vietphap.Online.Food.Ordering.request.OrderRequest;
+import com.vietphap.Online.Food.Ordering.response.PaymentResponse;
 import com.vietphap.Online.Food.Ordering.service.OrderService;
+import com.vietphap.Online.Food.Ordering.service.PaymentService;
 import com.vietphap.Online.Food.Ordering.service.UserService;
 
 @RestController
@@ -27,16 +29,20 @@ public class OrderController {
     private OrderService orderService;
 
     @Autowired
+    private PaymentService paymentService;
+
+    @Autowired
     private UserService userService;
 
     @PostMapping("/order/add")
-    public ResponseEntity<Order> createOrder(
+    public ResponseEntity<PaymentResponse> createOrder(
             @RequestBody OrderRequest req,
             @RequestHeader("Authorization") String jwt) throws Exception {
 
         User user = userService.findUserByJwtToken(jwt);
         Order order = orderService.createOrder(req, user);
-        return new ResponseEntity<>(order, HttpStatus.OK);
+        PaymentResponse paymentResponse = paymentService.createPaymentLink(order);
+        return new ResponseEntity<>(paymentResponse, HttpStatus.OK);
     }
 
     @GetMapping("/order/user")

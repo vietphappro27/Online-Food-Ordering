@@ -16,11 +16,14 @@ export const createOrder = (regData) => {
   return async (dispatch) => {
     dispatch({ type: CREATE_ORDER_REQUEST });
     try {
-      const response = await api.post(`/api/order/add`, regData.order, {
+      const {data} = await api.post(`/api/order/add`, regData.order, {
         headers: { Authorization: `Bearer ${regData.jwt}` },
       });
-      console.log("create order", response.data);
-      dispatch({ type: CREATE_ORDER_SUCCESS, payload: response.data });
+      if(data.payment_url){
+        window.location.href = data.payment_url;
+      }
+      console.log("c reate order", data);
+      dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
     } catch (error) {
       console.log("create order error", error);
       dispatch({ type: CREATE_ORDER_FAILURE, payload: error.message });

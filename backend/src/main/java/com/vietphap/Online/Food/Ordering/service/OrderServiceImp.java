@@ -80,6 +80,7 @@ public class OrderServiceImp implements OrderService {
         Long totalPrice = cartService.calculateCartTotals(cart);
         createOrder.setItems(orderItems);
         createOrder.setTotalPrice(totalPrice);
+        createOrder.setTotalAmount(totalPrice);
 
         Order savedOrder = orderRepository.save(createOrder);
         restaurant.getOrders().add(savedOrder);
