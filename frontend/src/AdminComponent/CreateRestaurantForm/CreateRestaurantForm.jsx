@@ -64,7 +64,7 @@ const CreateRestaurantForm = () => {
   };
   const handleRemoveImage = (index) => {
     const updateImages =[...formik.values.images]
-    updateImages.slice(index,1)
+    updateImages.splice(index,1)
     formik.setFieldValue('images', updateImages)
 
   };

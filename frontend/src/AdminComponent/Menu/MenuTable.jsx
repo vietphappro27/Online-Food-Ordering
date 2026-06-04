@@ -12,15 +12,17 @@ import Paper from "@mui/material/Paper";
 import CreateIcon from "@mui/icons-material/Create";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 const orders = [1, 1, 1, 1, 1, 1, 1, 1];
 
 const MenuTable = () => {
+  const navigate = useNavigate();
   return (
     <Box>
       <Card className='mt-1'>
         <CardHeader
           action={
-            <IconButton aria-label='settings'>
+            <IconButton onClick={() => navigate("../add-menu")} aria-label='settings'>
               <CreateIcon />
             </IconButton>
           }
