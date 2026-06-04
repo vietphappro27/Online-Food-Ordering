@@ -30,7 +30,7 @@ const RestaurantDetail = () => {
         </div>
       </div>
       <Grid container spacing={2}>
-        <Grid item xs={12} sx={{ width: "100%" }}>
+        <Grid size={{ xs: 12 }}>
           <Card>
             <CardHeader
               title={<span className='text-gray-300'> Restaurant</span>}
@@ -86,7 +86,7 @@ const RestaurantDetail = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} lg={6} sx>
+        <Grid size={{ xs: 12, lg: 6 }}>
           <Card>
             <CardHeader
               title={<span className='text-gray-300'> Address</span>}
@@ -126,8 +126,7 @@ const RestaurantDetail = () => {
           </Card>
         </Grid>
 
-        {/* <Grid item xs={8} sx={{ width: "60%" }}> */}
-        <Grid item xs={12} lg={6}>
+        <Grid size={{ xs: 12, lg: 6 }}>
           <Card>
             <CardHeader
               title={<span className='text-gray-300'> Contact</span>}

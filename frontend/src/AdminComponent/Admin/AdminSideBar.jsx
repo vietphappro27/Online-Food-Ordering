@@ -7,9 +7,11 @@ import FastfoodIcon from "@mui/icons-material/Fastfood";
 import EventIcon from "@mui/icons-material/Event";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import LogoutIcon from "@mui/icons-material/Logout";
+
 import Drawer from "@mui/material/Drawer";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import Divider from "@mui/material/Divider";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../component/State/Authentification/Action.js";
@@ -25,48 +27,72 @@ const menu = [
   { title: "Logout", icon: <LogoutIcon />, path: "/logout" },
 ];
 
-const AdminSideBar = ({ handleClose }) => {
-  const isSmallScreen = useMediaQuery("(max-width: 1080px)");
+const AdminSideBar = ({ open, handleClose }) => {
+  const isSmallScreen = useMediaQuery("(max-width:1080px)");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleNavigate = (item) => {
-    navigate(`/admin/restaurant${item.path}`);
     if (item.title === "Logout") {
-      navigate("/");
       dispatch(logout());
-      handleClose();
+      navigate("/");
+      handleClose?.();
+      return;
+    }
+
+    navigate(`/admin/restaurant${item.path}`);
+
+    if (isSmallScreen) {
+      handleClose?.();
     }
   };
+
   return (
-    <div>
-      <Drawer
-        variant={isSmallScreen ? "temporary" : "permanent"}
-        onClose={handleClose}
-        open={true}
-        anchor='left'
-        sx={{ zIndex: 1 }}
+    <Drawer
+      variant={isSmallScreen ? "temporary" : "permanent"}
+      open={isSmallScreen ? open : true}
+      onClose={handleClose}
+      anchor='left'
+      sx={{
+        "& .MuiDrawer-paper": {
+          width: isSmallScreen ? 250 : "20vw",
+          boxSizing: "border-box",
+        },
+      }}
+    >
+      <div
+        className='
+          h-screen
+          flex
+          flex-col
+          justify-center
+          text-xl
+          space-y-6
+        '
       >
-        <div
-          className='w-[70vw] lg:w-[20vw] h-screen flex flex-col 
-            justify-center text-xl space-y-[1.65rem]'
-        >
-          {menu.map((item, index) => (
-            <>
-              <div
-                onClick={() => handleNavigate(item)}
-                key={index}
-                className='flex items-center  px-5 gap-5 cursor-pointer'
-              >
-                {item.icon}
-                <span>{item.title}</span>
-              </div>
-              {index !== menu.length - 1 && <Divider />}
-            </>
-          ))}
-        </div>
-      </Drawer>
-    </div>
+        {menu.map((item, index) => (
+          <React.Fragment key={item.title}>
+            <div
+              onClick={() => handleNavigate(item)}
+              className='
+                flex
+                items-center
+                px-5
+                gap-5
+                cursor-pointer
+                py-3
+              '
+            >
+              {item.icon}
+              <span>{item.title}</span>
+            </div>
+
+            {index !== menu.length - 1 && <Divider />}
+          </React.Fragment>
+        ))}
+      </div>
+    </Drawer>
   );
 };
 
