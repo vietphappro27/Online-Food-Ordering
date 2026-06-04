@@ -14,7 +14,7 @@ export const PaymentSuccess = () => {
             Order Placed Successfully
           </h1>
           <p className="text-gray-500 text-sm text-center px-10">
-            Thank you for choosing our restaurant! We are happy to serve you. 
+            Thank you for choosing our restaurant! We are happy to serve you.
           </p>
           <Button onClick={() => navigate("/")} variant="contained" className="py-5" sx={{margin: "2rem 0rem"}} >
             Go To Home
