@@ -88,7 +88,7 @@ public class RestaurantServiceImp implements RestaurantService {
     }
 
     @Override
-    public Restaurant getRestaurantsByUserid(Long UserId) throws Exception {
+    public Restaurant getRestaurantByUserid(Long UserId) throws Exception {
         Restaurant restaurant = restaurantRepository.findByOwnerId(UserId);
         if (restaurant == null) {
             throw new Exception("Restaurant not found with user id: " + UserId);

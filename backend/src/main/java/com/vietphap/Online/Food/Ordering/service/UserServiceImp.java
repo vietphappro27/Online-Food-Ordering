@@ -1,6 +1,7 @@
 package com.vietphap.Online.Food.Ordering.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.vietphap.Online.Food.Ordering.config.JwtProvider;
@@ -15,6 +16,9 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     private JwtProvider jwtProvider;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public User findUserByJwtToken(String jwt) throws Exception {
@@ -32,5 +36,15 @@ public class UserServiceImp implements UserService {
             throw new Exception("User not found with email: " + email);
         }
         return user;
+    }
+
+    @Override
+    public User createUser(User user) throws Exception {
+        User existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser != null) {
+            throw new Exception("User already exists with email: " + user.getEmail());
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 }

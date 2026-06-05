@@ -12,7 +12,7 @@ import com.vietphap.Online.Food.Ordering.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired

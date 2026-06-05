@@ -2,6 +2,7 @@ package com.vietphap.Online.Food.Ordering.service;
 
 import com.vietphap.Online.Food.Ordering.model.Cart;
 import com.vietphap.Online.Food.Ordering.model.CartItem;
+import com.vietphap.Online.Food.Ordering.model.User;
 import com.vietphap.Online.Food.Ordering.request.AddCartItemRequest;
 
 public interface CartService {
@@ -20,4 +21,5 @@ public interface CartService {
 
     public Cart clearCart(Long userId) throws Exception;
 
+    public Cart createCart(User user);
 }

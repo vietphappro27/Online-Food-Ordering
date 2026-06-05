@@ -20,7 +20,7 @@ public class CategoryServiceImp implements CategoryService {
 
     @Override
     public Category createCategory(String name, Long userId) throws Exception {
-        Restaurant restaurant = restaurantService.getRestaurantsByUserid(userId);
+        Restaurant restaurant = restaurantService.getRestaurantByUserid(userId);
         Category category = new Category();
         category.setName(name);
         category.setRestaurant(restaurant);

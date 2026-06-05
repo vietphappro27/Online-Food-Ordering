@@ -1,6 +1,9 @@
 package com.vietphap.Online.Food.Ordering.controller;
 
 import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,7 +26,9 @@ import com.vietphap.Online.Food.Ordering.model.User;
 import com.vietphap.Online.Food.Ordering.repository.CartRepository;
 import com.vietphap.Online.Food.Ordering.repository.UserRepository;
 import com.vietphap.Online.Food.Ordering.response.AuthResponse;
+import com.vietphap.Online.Food.Ordering.service.CartService;
 import com.vietphap.Online.Food.Ordering.service.CustomerUserDetailsService;
+import com.vietphap.Online.Food.Ordering.service.UserService;
 import com.vietphap.Online.Food.Ordering.request.LoginRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -32,7 +37,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class AuthController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -44,30 +49,18 @@ public class AuthController {
     private CustomerUserDetailsService customerUserDetailsService;
 
     @Autowired
-    private CartRepository cartRepository;
+    private CartService cartService;
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws Exception {
 
-        User isEmailExist = userRepository.findByEmail(user.getEmail());
+        User savedUser = userService.createUser(user);
+        cartService.createCart(savedUser);
 
-        if (isEmailExist != null) {
-            throw new Exception("Email already exists");
-        }
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(savedUser.getRole().toString()));
 
-        User createdUser = new User();
-        createdUser.setEmail(user.getEmail());
-        createdUser.setFullname(user.getFullname());
-        createdUser.setRole(user.getRole());
-        createdUser.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        User savedUser = userRepository.save(createdUser);
-
-        Cart cart = new Cart();
-        cart.setCustomer(savedUser);
-        cartRepository.save(cart);
-
-        Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+        Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword(), authorities);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         String jwt = jwtProvider.generateToken(auth);

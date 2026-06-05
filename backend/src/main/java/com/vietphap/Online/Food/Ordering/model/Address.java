@@ -21,7 +21,6 @@ public class Address {
 
     private String fullname;
     private String city;
-    private String district;
     private String ward;
     private String street;
     private String pincode;

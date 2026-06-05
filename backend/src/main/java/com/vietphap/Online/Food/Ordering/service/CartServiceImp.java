@@ -14,6 +14,7 @@ import com.vietphap.Online.Food.Ordering.repository.CartItemRepository;
 import com.vietphap.Online.Food.Ordering.repository.CartRepository;
 import com.vietphap.Online.Food.Ordering.request.AddCartItemRequest;
 
+
 @Service
 public class CartServiceImp implements CartService {
 
@@ -124,6 +125,13 @@ public class CartServiceImp implements CartService {
     public Cart clearCart(Long userId) throws Exception {
         Cart cart = findCartByUserId(userId);
         cart.getItems().clear();
+        return cartRepository.save(cart);
+    }
+
+    @Override
+    public Cart createCart(User user) {
+        Cart cart = new Cart();
+        cart.setCustomer(user);
         return cartRepository.save(cart);
     }
 

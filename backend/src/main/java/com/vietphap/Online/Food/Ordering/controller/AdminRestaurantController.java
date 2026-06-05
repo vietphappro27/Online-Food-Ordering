@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
-@RequestMapping("/api/admin/restaurants")
+@RequestMapping("/api/admin/restaurant")
 public class AdminRestaurantController {
     @Autowired
     private RestaurantService restaurantService;
@@ -84,7 +84,7 @@ public class AdminRestaurantController {
 
         User user = userService.findUserByJwtToken(jwt);
 
-        Restaurant restaurant = restaurantService.getRestaurantsByUserid(user.getId());
+        Restaurant restaurant = restaurantService.getRestaurantByUserid(user.getId());
 
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }

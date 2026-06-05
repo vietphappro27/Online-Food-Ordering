@@ -20,7 +20,7 @@ import com.vietphap.Online.Food.Ordering.service.RestaurantService;
 import com.vietphap.Online.Food.Ordering.service.UserService;
 
 @RestController
-@RequestMapping("/api/restaurants")
+@RequestMapping("/api/restaurant")
 public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;

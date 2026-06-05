@@ -27,11 +27,8 @@ public class AppConfig {
 
         http.sessionManagement(managment -> managment.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(Authorize -> Authorize
-                        // .requestMatchers("/auth/**").permitAll()
-                        // .requestMatchers("/api/admin/**").hasAnyRole("ROLE_RESTAURANT_OWNER",
-                        // "ROLE_ADMIN")
-                    .requestMatchers(HttpMethod.GET, "/api/restaurants", "/api/restaurants/**").permitAll()
-                        // .requestMatchers("/api/admin/**").hasAnyRole("ROLE_RESTAURANT_OWNER", "ROLE_ADMIN")
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/restaurant", "/api/restaurant/**").permitAll()
                         .requestMatchers("/api/admin/**").hasAnyRole("RESTAURANT_OWNER", "ADMIN")
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll())
