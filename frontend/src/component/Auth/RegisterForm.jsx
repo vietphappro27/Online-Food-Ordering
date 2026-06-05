@@ -1,7 +1,17 @@
-import { Button, TextField, Typography, MenuItem, Select } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Typography,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../State/Authentification/Action";
 
 const initialValues = {
   fullname: "",
@@ -12,9 +22,10 @@ const initialValues = {
 
 export const RegisterForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (values) => {
-    console.log("from values", values);
+    dispatch(registerUser({ userData: values, navigate }));
   };
   return (
     <div>
@@ -52,20 +63,24 @@ export const RegisterForm = () => {
             margin='normal'
           />
 
-          <Select
-            fullWidth
-            margin='normal'
-            as={Select}
-            labelId='demo-simple-select-label'
-            id='demo-simple-select'
-            name='role'
-            // onChange={handleChange}
-          >
-            <MenuItem value={"ROLE_CUSTOMER"}>Customer</MenuItem>
-            <MenuItem value={"ROLE_RESTAURANT_OWNER"}>
-              Restaurant Owner
-            </MenuItem>
-          </Select>
+          <Field name='role'>
+            {({ field }) => (
+              <FormControl fullWidth margin='normal'>
+                <InputLabel id='role-select-label'>Role</InputLabel>
+                <Select
+                  {...field}
+                  labelId='role-select-label'
+                  id='role-select'
+                  label='Role'
+                >
+                  <MenuItem value={"ROLE_CUSTOMER"}>Customer</MenuItem>
+                  <MenuItem value={"ROLE_RESTAURANT_OWNER"}>
+                    Restaurant Owner
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            )}
+          </Field>
 
           <Button
             sx={{ mt: 2, padding: "1rem" }}
@@ -73,14 +88,14 @@ export const RegisterForm = () => {
             type='submit'
             variant='contained'
           >
-            Login
+            Register
           </Button>
         </Form>
       </Formik>
       <Typography variant='body2' align='center' sx={{ mt: 3 }}>
         If you have an account?
         <Button size='small' onClick={() => navigate("/account/login")}>
-          login
+          Login
         </Button>
       </Typography>
     </div>

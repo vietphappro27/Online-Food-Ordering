@@ -1,8 +1,8 @@
 import axios from "axios";
 import {
-  GET_RESTAURANTS_ORDER_REQUEST,
-  GET_RESTAURANTS_ORDER_SUCCESS,
-  GET_RESTAURANTS_ORDER_FAILURE,
+  GET_RESTAURANT_ORDER_REQUEST,
+  GET_RESTAURANT_ORDER_SUCCESS,
+  GET_RESTAURANT_ORDER_FAILURE,
   UPDATE_ORDER_STATUS_REQUEST,
   UPDATE_ORDER_STATUS_SUCCESS,
   UPDATE_ORDER_STATUS_FAILURE,
@@ -34,10 +34,10 @@ export const updateOrderStatus = ({ orderId, orderStatus, jwt }) => {
   };
 };
 
-export const fetchRestaurantsOrders = ({ restaurantId, orderStatus, jwt }) => {
+export const fetchRestaurantOrders = ({ restaurantId, orderStatus, jwt }) => {
   return async (dispatch) => {
     try {
-      dispatch({ type: GET_RESTAURANTS_ORDER_REQUEST });
+      dispatch({ type: GET_RESTAURANT_ORDER_REQUEST });
       const response = await api.get(
         `/api/admin/order/restaurant/${restaurantId}`,
         {
@@ -49,12 +49,12 @@ export const fetchRestaurantsOrders = ({ restaurantId, orderStatus, jwt }) => {
       const orders = response.data;
       console.log("fetch restaurant orders", orders);
       dispatch({
-        type: GET_RESTAURANTS_ORDER_SUCCESS,
+        type: GET_RESTAURANT_ORDER_SUCCESS,
         payload: orders,
       });
     } catch (error) {
       console.error("Error fetching restaurant orders:", error);
-      dispatch({ type: GET_RESTAURANTS_ORDER_FAILURE, payload: error.message });
+      dispatch({ type: GET_RESTAURANT_ORDER_FAILURE, payload: error.message });
     }
   };
 };

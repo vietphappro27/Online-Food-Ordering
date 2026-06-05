@@ -8,6 +8,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { uploadImageToCloudinary } from "../util/UploadToCloudinary";
+import { useDispatch } from "react-redux";
+import { createRestaurant } from "../../component/State/Restaurant/Action";
 
 const initialValues = {
   name: "",
@@ -17,7 +19,6 @@ const initialValues = {
   city: "",
   stateProvince: "",
   postalCode: "",
-  country: "",
   email: "",
   mobile: "",
   twitter: "",
@@ -27,46 +28,51 @@ const initialValues = {
 };
 
 const CreateRestaurantForm = () => {
-  const [uploadImage, setUploadImage] = useState(null);
+  const [uploadImage, setUploadImage] = useState(false);
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+
   const formik = useFormik({
     initialValues,
     onSubmit: (values) => {
-      const data ={
+      const data = {
         name: values.name,
         description: values.description,
         cuisineType: values.cuisineType,
         address: {
-          streetAddress: values.streetAddress,
+          street: values.street,
+          ward: values.ward,
           city: values.city,
-          stateProvince: values.stateProvince,
-          postalCode: values.postalCode,
-          country: values.country,
+          pincode: values.pincode,
         },
-        contact: {
+        contactInformation: {
           email: values.email,
           mobile: values.mobile,
           twitter: values.twitter,
           instagram: values.instagram,
         },
         openingHours: values.openingHours,
-        images: uploadImage? uploadImage: [],
-      } 
+        images: uploadImage ? uploadImage : [],
+      };
       console.log("data --- ", data);
+
+      dispatch(createRestaurant({ data, token: jwt }));
     },
   });
-  const handleImageChange = async(e) => {
-    const file = e.target.files[0]
-    setUploadImage(file)
-    const image = await uploadImageToCloudinary(file)
-    console.log("image --- ", image)
-    formik.setFieldValue('images', [...formik.values.images, image])
-    setUploadImage(false)
-  };
-  const handleRemoveImage = (index) => {
-    const updateImages =[...formik.values.images]
-    updateImages.splice(index,1)
-    formik.setFieldValue('images', updateImages)
 
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    setUploadImage(file);
+    const image = await uploadImageToCloudinary(file);
+    console.log("image --- ", image);
+    formik.setFieldValue("images", [...formik.values.images, image]);
+    setUploadImage(false);
+  };
+
+  const handleRemoveImage = (index) => {
+    const updateImages = [...formik.values.images];
+    updateImages.splice(index, 1);
+    formik.setFieldValue("images", updateImages);
   };
 
   return (
@@ -174,11 +180,22 @@ const CreateRestaurantForm = () => {
             <Grid size={{ xs: 12, lg: 4 }}>
               <TextField
                 fullWidth
-                id='streetAddress'
-                name='streetAddress'
-                label='Street Address'
+                id='street'
+                name='street'
+                label='Street'
                 variant='outlined'
-                value={formik.values.streetAddress}
+                value={formik.values.street}
+                onChange={formik.handleChange}
+              ></TextField>
+            </Grid>
+            <Grid size={{ xs: 12, lg: 4 }}>
+              <TextField
+                fullWidth
+                id='ward'
+                name='ward'
+                label='Ward'
+                variant='outlined'
+                value={formik.values.ward}
                 onChange={formik.handleChange}
               ></TextField>
             </Grid>
@@ -193,36 +210,14 @@ const CreateRestaurantForm = () => {
                 onChange={formik.handleChange}
               ></TextField>
             </Grid>
-            <Grid size={{ xs: 12, lg: 4 }}>
-              <TextField
-                fullWidth
-                id='stateProvince'
-                name='stateProvince'
-                label='State/Province'
-                variant='outlined'
-                value={formik.values.stateProvince}
-                onChange={formik.handleChange}
-              ></TextField>
-            </Grid>
             <Grid size={12}>
               <TextField
                 fullWidth
-                id='postalCode'
-                name='postalCode'
-                label='Postal Code'
+                id='pincode'
+                name='pincode'
+                label='Pincode'
                 variant='outlined'
-                value={formik.values.postalCode}
-                onChange={formik.handleChange}
-              ></TextField>
-            </Grid>
-            <Grid size={12}>
-              <TextField
-                fullWidth
-                id='country'
-                name='country'
-                label='Country'
-                variant='outlined'
-                value={formik.values.country}
+                value={formik.values.pincode}
                 onChange={formik.handleChange}
               ></TextField>
             </Grid>
@@ -271,8 +266,11 @@ const CreateRestaurantForm = () => {
               ></TextField>
             </Grid>
           </Grid>
-          <Button className="mt-4" variant="contained" color="primary" 
-          type="submit"
+          <Button
+            className='mt-4'
+            variant='contained'
+            color='primary'
+            type='submit'
           >
             Create Restaurant
           </Button>

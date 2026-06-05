@@ -2,9 +2,9 @@ import {
   UPDATE_ORDER_STATUS_REQUEST,
   UPDATE_ORDER_STATUS_SUCCESS,
   UPDATE_ORDER_STATUS_FAILURE,
-  GET_RESTAURANTS_ORDER_REQUEST,
-  GET_RESTAURANTS_ORDER_SUCCESS,
-  GET_RESTAURANTS_ORDER_FAILURE,
+  GET_RESTAURANT_ORDER_REQUEST,
+  GET_RESTAURANT_ORDER_SUCCESS,
+  GET_RESTAURANT_ORDER_FAILURE,
 } from "./ActionType";
 
 const initialState = {
@@ -15,14 +15,14 @@ const initialState = {
 
 const restaurantOrderReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_RESTAURANTS_ORDER_REQUEST:
+    case GET_RESTAURANT_ORDER_REQUEST:
     case UPDATE_ORDER_STATUS_REQUEST:
       return {
         ...state,
         loading: true,
         error: null,
       };
-    case GET_RESTAURANTS_ORDER_SUCCESS:
+    case GET_RESTAURANT_ORDER_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -37,7 +37,7 @@ const restaurantOrderReducer = (state = initialState, action) => {
         loading: false,
         orders: updatedOrders,
       };
-    case GET_RESTAURANTS_ORDER_FAILURE:
+    case GET_RESTAURANT_ORDER_FAILURE:
     case UPDATE_ORDER_STATUS_FAILURE:
       return {
         ...state,

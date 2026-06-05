@@ -13,7 +13,7 @@ const initialValues = {
 export const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { auth } = useSelector((store) => store);
+  const { auth } = useSelector((store) => store.auth);
   const jwt = localStorage.getItem("jwt");
   useEffect(() => {
     if (jwt) {

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "./Home.css";
 import { MultiItemCarousel } from "./MultiItemCarousel";
 import RestaurantCard from "../Restaurant/RestaurantCard";
-import { getAllRestaurantsAction } from "../State/Restaurant/Action";
+import { getAllRestaurantAction } from "../State/Restaurant/Action";
 import { useDispatch, useSelector } from "react-redux";
 import { findCart } from "../State/Cart/Action";
 
@@ -16,7 +16,7 @@ const Home = () => {
   console.log("restaurant", restaurant);
 
   useEffect(() => {
-    dispatch(getAllRestaurantsAction(jwt));
+    dispatch(getAllRestaurantAction(jwt));
   }, [dispatch, jwt]);
 
   return (

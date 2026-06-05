@@ -9,7 +9,7 @@ export const AddressCard = ({ item, showButton, handleSelectAddress }) => {
       <div className='space-y-3 text-gray-500'>
         <h1 className='font-semibold text-lg text-white'> Address </h1>
         <p>
-          {item?.street}, {item?.ward}, {item?.district}, {item?.city} - {item?.pincode}
+          {item?.street}, {item?.ward}, {item?.city} - {item?.pincode}
         </p>
         {showButton && (
           <Button

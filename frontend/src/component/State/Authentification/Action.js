@@ -46,7 +46,7 @@ export const loginUser = (reqData) => async (dispatch) => {
     if (data.jwt) localStorage.setItem("jwt", data.jwt);
     dispatch({ type: LOGIN_SUCCESS, payload: data.jwt });
     // Lấy profile user sau khi login thành công
-    const profileRes = await api.get(`/api/users/profile`, {
+    const profileRes = await api.get(`/api/user/profile`, {
       headers: {
         Authorization: `Bearer ${data.jwt}`,
       },
@@ -67,7 +67,7 @@ export const loginUser = (reqData) => async (dispatch) => {
 export const getUser = (jwt) => async (dispatch) => {
   dispatch({ type: GET_USER_REQUEST });
   try {
-    const { data } = await api.get(`/api/users/profile`, {
+    const { data } = await api.get(`/api/user/profile`, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
@@ -90,7 +90,7 @@ export const addToFavorite =
       }
 
       const { data } = await api.put(
-        `/api/restaurants/${restaurantId}/add-favorite`,
+        `/api/restaurant/${restaurantId}/add-favorite`,
         {},
         {
           headers: {

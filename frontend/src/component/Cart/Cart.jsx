@@ -31,7 +31,6 @@ export const style = {
 const initialValues = {
   street: "",
   ward: "",
-  district: "",
   city: "",
   pincode: "",
 };
@@ -39,7 +38,6 @@ const initialValues = {
 const validationSchema = Yup.object().shape({
   street: Yup.string().required("Street Address is required"),
   ward: Yup.string().required("Ward is required"),
-  district: Yup.string().required("District is required"),
   city: Yup.string().required("City is required"),
   pincode: Yup.string().required("Pincode is required"),
 });
@@ -76,7 +74,6 @@ const Cart = () => {
           fullname: auth.user?.fullname,
           street: values.street,
           ward: values.ward,
-          district: values.district,
           city: values.city,
           pincode: values.pincode,
         },
@@ -185,16 +182,7 @@ const Cart = () => {
                     variant='outlined'
                   />
                 </Grid>
-                <Grid size={6}>
-                  <Field
-                    as={TextField}
-                    name='district'
-                    label='District'
-                    fullWidth
-                    variant='outlined'
-                  />
-                </Grid>
-                <Grid size={6}>
+                <Grid size={12}>
                   <Field
                     as={TextField}
                     name='city'

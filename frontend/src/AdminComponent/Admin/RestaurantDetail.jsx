@@ -8,24 +8,39 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
-
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { updateRestaurantStatus } from "../../component/State/Restaurant/Action";
 const RestaurantDetail = () => {
-  const handleRestaurantStatus = () => {};
+  const { restaurant } = useSelector((store) => store);
+  console.log("restaurant detail", restaurant);
+
+  const dispatch = useDispatch();
+
+  const handleRestaurantStatus = () => {
+    dispatch(
+      updateRestaurantStatus({
+        restaurantId: restaurant.userRestaurant?.id,
+        jwt: localStorage.getItem("jwt"),
+      }),
+    );
+  };
+
   return (
     <div className='lg:px-20 px-5 pb-10'>
       <div className='py-5 flex justify-center items-center gap-5'>
         <h1 className='text-2xl lg:text-7xl text-center font-bold p-5'>
-          VietNamese Fast Food
+          {restaurant.userRestaurant?.name || "Restaurant Name"}
         </h1>
         <div>
           <Button
-            color={true ? "primary" : "error"}
+            color={restaurant.userRestaurant?.open ? "primary" : "error"}
             className='py-[1rem] px-[2rem]'
             variant='contained'
             onClick={handleRestaurantStatus}
             size='large'
           >
-            {true ? "Close" : "Open"}
+            {restaurant.userRestaurant?.open ? "Close" : "Open"}
           </Button>
         </div>
       </div>
@@ -41,28 +56,28 @@ const RestaurantDetail = () => {
                   <p className='w-48'>Owner</p>
                   <p className='text-gray-400'>
                     <span className='pr-5'>-</span>
-                    Viet Phap
+                    {restaurant.userRestaurant?.owner?.fullname || "Owner Name"}
                   </p>
                 </div>
                 <div className='flex'>
                   <p className='w-48'>Restaurant Name</p>
                   <p className='text-gray-400'>
                     <span className='pr-5'>-</span>
-                    Viet Phap
+                    {restaurant.userRestaurant?.name || "Restaurant Name"}
                   </p>
                 </div>
                 <div className='flex'>
                   <p className='w-48'>Cuisine Type</p>
                   <p className='text-gray-400'>
                     <span className='pr-5'>-</span>
-                    Viet Phap
+                    {restaurant.userRestaurant?.cuisineType || "Cuisine Type"}
                   </p>
                 </div>
                 <div className='flex'>
                   <p className='w-48'>Open Hours</p>
                   <p className='text-gray-400'>
                     <span className='pr-5'>-</span>
-                    Viet Phap
+                    {restaurant.userRestaurant?.openingHours || "Opening Hours"}
                   </p>
                 </div>
 
@@ -70,7 +85,7 @@ const RestaurantDetail = () => {
                   <p className='w-48'>Status</p>
                   <p className='text-gray-400'>
                     <span className='pr-5'>-</span>
-                    {true ? (
+                    {restaurant.userRestaurant?.open ? (
                       <span className='px-5 py-2 rounded-full bg-green-400 text-gray-950'>
                         Open
                       </span>
@@ -94,31 +109,31 @@ const RestaurantDetail = () => {
             <CardContent>
               <div className='space-y-4 text-gray-200'>
                 <div className='flex'>
-                  <p className='w-48'>Country</p>
+                  <p className='w-48'>Street</p>
                   <p className='text-gray-400'>
                     <span className='pr-5'>-</span>
-                    Viet Phap
-                  </p>
-                </div>
-                <div className='flex'>
-                  <p className='w-48'>City</p>
-                  <p className='text-gray-400'>
-                    <span className='pr-5'>-</span>
-                    Viet Phap
-                  </p>
-                </div>
-                <div className='flex'>
-                  <p className='w-48'>Post Code</p>
-                  <p className='text-gray-400'>
-                    <span className='pr-5'>-</span>
-                    Viet Phap
+                    {restaurant.userRestaurant?.address?.street || "Street"}
                   </p>
                 </div>
                 <div className='flex'>
                   <p className='w-48'>Street</p>
                   <p className='text-gray-400'>
                     <span className='pr-5'>-</span>
-                    Viet Phap
+                    {restaurant.userRestaurant?.address?.ward || "Ward"}
+                  </p>
+                </div>
+                <div className='flex'>
+                  <p className='w-48'>City</p>
+                  <p className='text-gray-400'>
+                    <span className='pr-5'>-</span>
+                    {restaurant.userRestaurant?.address?.city || "City"}
+                  </p>
+                </div>
+                <div className='flex'>
+                  <p className='w-48'>Pin Code</p>
+                  <p className='text-gray-400'>
+                    <span className='pr-5'>-</span>
+                    {restaurant.userRestaurant?.address?.pincode || "Pincode"}
                   </p>
                 </div>
               </div>
@@ -137,14 +152,16 @@ const RestaurantDetail = () => {
                   <p className='w-48'>Email</p>
                   <p className='text-gray-400'>
                     <span className='pr-5'>-</span>
-                    vietphap2708@gmail.com
+                    {restaurant.userRestaurant?.contactInformation?.email ||
+                      "Email"}
                   </p>
                 </div>
                 <div className='flex'>
                   <p className='w-48'>Phone</p>
                   <p className='text-gray-400'>
                     <span className='pr-5'>-</span>
-                    0327082846
+                    {restaurant.userRestaurant?.contactInformation?.mobile ||
+                      "Phone"}
                   </p>
                 </div>
                 <div className='flex'>
@@ -154,13 +171,23 @@ const RestaurantDetail = () => {
                     <a href='/'>
                       <FacebookIcon sx={{ fontSize: "3rem" }} />
                     </a>
-                    <a href='/'>
+                    <a
+                      href={
+                        restaurant.userRestaurant?.contactInformation
+                          ?.instagram || "/"
+                      }
+                    >
                       <InstagramIcon sx={{ fontSize: "3rem" }} />
                     </a>
                     <a href='/'>
                       <LinkedInIcon sx={{ fontSize: "3rem" }} />
                     </a>
-                    <a href='/'>
+                    <a
+                      href={
+                        restaurant.userRestaurant?.contactInformation
+                          ?.twitter || "/"
+                      }
+                    >
                       <TwitterIcon sx={{ fontSize: "3rem" }} />
                     </a>
                   </p>
