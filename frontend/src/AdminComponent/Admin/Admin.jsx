@@ -14,8 +14,24 @@ import CreateMenuForm from "../Menu/CreateMenuForm";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useDispatch, useSelector } from "react-redux";
+import { getRestaurantCategory } from "../../component/State/Restaurant/Action";
+import { fetchRestaurantOrders } from "../../component/State/Restaurant Order/Action";
+import { useEffect } from "react";
 
 const Admin = () => {
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const { restaurant } = useSelector((store) => store);
+  const restaurantId = restaurant.userRestaurant?.id;
+
+  useEffect(() => {
+    if (!restaurantId) return;
+
+    dispatch(getRestaurantCategory({ jwt, restaurantId }));
+    dispatch(fetchRestaurantOrders({ jwt, restaurantId }));
+  }, [restaurantId]);
+
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const isSmallScreen = useMediaQuery("(max-width:1080px)");

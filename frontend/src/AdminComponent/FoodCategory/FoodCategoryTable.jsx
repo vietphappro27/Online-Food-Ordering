@@ -13,6 +13,11 @@ import CreateIcon from "@mui/icons-material/Create";
 import IconButton from "@mui/material/IconButton";
 import Modal from "@mui/material/Modal";
 import CreateFoodCategoryForm from "./CreateFoodCategoryForm";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+
+import { getRestaurantCategory } from "../../component/State/Restaurant/Action";
+import { fetchRestaurantOrders } from "../../component/State/Restaurant Order/Action";
 
 const style = {
   position: "absolute",
@@ -29,6 +34,18 @@ const style = {
 const orders = [1, 1, 1, 1, 1, 1, 1, 1];
 
 const FoodCategoryTable = () => {
+  const { category, restaurant } = useSelector((store) => store);
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const restaurantId = restaurant.userRestaurant?.id;
+
+  useEffect(() => {
+    if (!restaurantId) return;
+
+    dispatch(getRestaurantCategory({ jwt, restaurantId }));
+    dispatch(fetchRestaurantOrders({ jwt, restaurantId }));
+  }, [restaurantId]);
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -55,20 +72,15 @@ const FoodCategoryTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((row) => (
+              {restaurant.categories.map((item) => (
                 <TableRow
-                  key={row.name}
+                  key={item.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component='th' scope='row'>
-                    {1}
+                    {item.id}
                   </TableCell>
-                  <TableCell align='left'>{"name"}</TableCell>
-                  {/* <TableCell align='right'>
-                    <IconButton>
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell> */}
+                  <TableCell align='left'>{item.name}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

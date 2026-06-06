@@ -280,7 +280,7 @@ export const createCategoryAction = ({ reqData, jwt }) => {
   };
 };
 
-export const getRestaurantCategory = ({ restaurantId, jwt }) => {
+export const getRestaurantCategory = ({ jwt, restaurantId }) => {
   return async (dispatch) => {
     dispatch({ type: GET_RESTAURANT_CATEGORY_REQUEST });
     try {

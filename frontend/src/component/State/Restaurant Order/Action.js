@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   GET_RESTAURANT_ORDER_REQUEST,
   GET_RESTAURANT_ORDER_SUCCESS,
@@ -7,20 +6,20 @@ import {
   UPDATE_ORDER_STATUS_SUCCESS,
   UPDATE_ORDER_STATUS_FAILURE,
 } from "./ActionType.js";
-import { api } from "../../config.js";
+import { api } from "../../config/api";
 
 export const updateOrderStatus = ({ orderId, orderStatus, jwt }) => {
   return async (dispatch) => {
     try {
       dispatch({ type: UPDATE_ORDER_STATUS_REQUEST });
       const response = await api.put(
-        `/api/admin/orders/${orderId}/${orderStatus}`,
+        `/api/admin/order/${orderId}/${orderStatus}`,
         {},
         {
           headers: { Authorization: `Bearer ${jwt}` },
         },
       );
-
+ 
       const updatedOrder = response.data;
       console.log("update order status", updatedOrder);
       dispatch({

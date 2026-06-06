@@ -8,14 +8,17 @@ import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { uploadImageToCloudinary } from "../util/UploadToCloudinary";
-import { Theme, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
+import { useDispatch, useSelector } from "react-redux";
+import { createMenuItem } from "../../component/State/Menu/Action";
+import { getIngredientsOfRestaurant } from "../../component/State/Ingredients/Action";
+import { useEffect } from "react";
 
 const initialValues = {
   name: "",
@@ -30,12 +33,35 @@ const initialValues = {
 };
 
 const CreateMenuForm = () => {
+  const restaurant = useSelector((state) => state.restaurant);
+  const ingredients = useSelector((state) => state.ingredients);
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+
   const [uploadImage, setUploadImage] = useState(null);
   const formik = useFormik({
     initialValues,
     onSubmit: (values) => {
-      values.restaurantId = 2;
-      console.log("data --- ", values);
+      const selectedCategory = restaurant.categories?.find(
+        (item) => item.id === values.category,
+      );
+      const selectedIngredients = values.ingredients
+        .map((id) => ingredients.ingredients?.find((item) => item.id === id))
+        .filter(Boolean)
+        .map(({ id }) => ({ id }));
+
+      const menu = {
+        name: values.name,
+        description: values.description,
+        price: Number(values.price),
+        category: selectedCategory,
+        restaurantId: restaurant.userRestaurant.id,
+        vegetarian: values.vegetarian,
+        seasonal: values.seasonal,
+        images: values.images,
+        ingredients: selectedIngredients,
+      };
+      dispatch(createMenuItem({ menu, jwt }));
     },
   });
   const handleImageChange = async (e) => {
@@ -51,6 +77,18 @@ const CreateMenuForm = () => {
     updateImages.splice(index, 1);
     formik.setFieldValue("images", updateImages);
   };
+
+  const restaurantId = restaurant.userRestaurant?.id;
+
+  useEffect(() => {
+    if (restaurantId) {
+      dispatch(getIngredientsOfRestaurant({ id: restaurantId, jwt }));
+    }
+  }, [restaurantId, dispatch, jwt]);
+
+  if (!restaurantId) {
+    return null;
+  }
 
   return (
     <div className='py-10 px-5 min-h-screen'>
@@ -155,9 +193,11 @@ const CreateMenuForm = () => {
                   onChange={formik.handleChange}
                   name='category'
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {restaurant.categories?.map((item) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -173,7 +213,13 @@ const CreateMenuForm = () => {
                   name='ingredients'
                   multiple
                   value={formik.values.ingredients}
-                  onChange={formik.handleChange}
+                  onChange={(e) => {
+                    const { value } = e.target;
+                    formik.setFieldValue(
+                      "ingredients",
+                      typeof value === "string" ? value.split(",") : value,
+                    );
+                  }}
                   input={
                     <OutlinedInput
                       id='select-multiple-chip'
@@ -182,16 +228,23 @@ const CreateMenuForm = () => {
                   }
                   renderValue={(selected) => (
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                      {selected.map((value) => (
-                        <Chip key={value} label={value} />
-                      ))}
+                      {selected.map((id) => {
+                        const ingredient = ingredients.ingredients?.find(
+                          (item) => item.id === id,
+                        );
+                        return (
+                          <Chip
+                            key={id}
+                            label={ingredient?.name ?? id}
+                          />
+                        );
+                      })}
                     </Box>
                   )}
-                  //   MenuProps={MenuProps}
                 >
-                  {[1, 2, 3].map((name, index) => (
-                    <MenuItem key={name} value={name}>
-                      {name}
+                  {ingredients.ingredients?.map((item) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.name}
                     </MenuItem>
                   ))}
                 </Select>
@@ -242,7 +295,7 @@ const CreateMenuForm = () => {
             color='primary'
             type='submit'
           >
-            Create Restaurant
+            Create Menu
           </Button>
         </form>
       </div>

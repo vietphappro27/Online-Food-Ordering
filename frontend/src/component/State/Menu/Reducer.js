@@ -39,7 +39,7 @@ const menuItemReducer = (stats = initialState, action) => {
         ...stats,
         loading: false,
         menuItems: stats.menuItems.filter(
-          (menuItem) => menuItem.id !== action.payload.id,
+          (menuItem) => menuItem.id !== action.payload,
         ),
       };
 

@@ -9,5 +9,5 @@ import com.vietphap.Online.Food.Ordering.model.CartItem;
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
-    // public Cart fineByCustomerId(Long userId);
+    void deleteByFood_Id(Long foodId);
 }

@@ -39,12 +39,15 @@ public class IngredientController {
     public ResponseEntity<IngredientItem> createIngredientItem(
             @RequestBody IngredientItemRequest req) throws Exception {
 
-        IngredientItem item = ingredientService.createIngredientItem(req.getRestaurantId(), req.getName(),
-                req.getCategoryId());
+        IngredientItem item = ingredientService.createIngredientItem(
+            req.getRestaurantId(), 
+            req.getName(),
+            req.getCategoryId()
+        );
         return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
 
-    @PutMapping("/stoke/{id}")
+    @PutMapping("/stock/{id}")
     public ResponseEntity<IngredientItem> updateIngredientStock(
             @PathVariable Long id) throws Exception {
         IngredientItem item = ingredientService.updateStock(id);

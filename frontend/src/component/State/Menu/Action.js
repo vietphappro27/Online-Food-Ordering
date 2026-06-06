@@ -21,7 +21,7 @@ export const createMenuItem = ({ menu, jwt }) => {
   return async (dispatch) => {
     dispatch({ type: CREATE_MENU_ITEM_REQUEST });
     try {
-      const { data } = await api.post("/api/admin/food", menu, {
+      const { data } = await api.post("/api/admin/food/create", menu, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
@@ -119,7 +119,7 @@ export const deleteFoodAction = ({ foodId, jwt }) => {
   return async (dispatch) => {
     dispatch({ type: DELETE_MENU_ITEM_REQUEST });
     try {
-      const { data } = await api.delete(`/api/admin/food/${foodId}`, {
+      const { data } = await api.delete(`/api/admin/food/delete/${foodId}`, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },

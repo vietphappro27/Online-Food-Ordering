@@ -8,4 +8,5 @@ import com.vietphap.Online.Food.Ordering.model.OrderItem;
 @Repository
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
+    boolean existsByFood_Id(Long foodId);
 }

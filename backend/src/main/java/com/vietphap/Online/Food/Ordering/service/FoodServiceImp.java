@@ -7,11 +7,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.vietphap.Online.Food.Ordering.model.Category;
 import com.vietphap.Online.Food.Ordering.model.Food;
 import com.vietphap.Online.Food.Ordering.model.Restaurant;
+import com.vietphap.Online.Food.Ordering.repository.CartItemRepository;
 import com.vietphap.Online.Food.Ordering.repository.FoodRepository;
+import com.vietphap.Online.Food.Ordering.repository.OrderItemRepository;
 import com.vietphap.Online.Food.Ordering.request.CreateFoodRequest;
 
 @Service
@@ -19,6 +22,12 @@ public class FoodServiceImp implements FoodService {
 
     @Autowired
     private FoodRepository foodRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private CartItemRepository cartItemRepository;
 
     @Override
     public Food createFood(CreateFoodRequest req, Category catagory, Restaurant restaurant) throws Exception {
@@ -31,19 +40,29 @@ public class FoodServiceImp implements FoodService {
         food.setPrice(req.getPrice());
         food.setIngredients(req.getIngredients());
         food.setSeasonal(req.isSeasonal());
-        food.setVegetarian(req.isVegetarin());
+        food.setVegetarian(req.isVegetarian());
         food.setCreationDate(new Date());
 
-        Food saveFood = foodRepository.save(food);
-        restaurant.getFoods().add(saveFood);
-
-        return saveFood;
+        return foodRepository.save(food);
     }
 
     @Override
+    @Transactional
     public void deleteFood(Long foodId) throws Exception {
         Food food = findFoodById(foodId);
-        food.setRestaurant(null);
+
+        cartItemRepository.deleteByFood_Id(foodId);
+
+        if (orderItemRepository.existsByFood_Id(foodId)) {
+            food.setAvailable(false);
+            food.setRestaurant(null);
+            foodRepository.save(food);
+            return;
+        }
+
+        if (food.getIngredients() != null) {
+            food.getIngredients().clear();
+        }
         foodRepository.delete(food);
     }
 

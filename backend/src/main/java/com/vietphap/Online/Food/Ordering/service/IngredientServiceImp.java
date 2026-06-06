@@ -62,10 +62,7 @@ public class IngredientServiceImp implements IngredientService {
         item.setName(ingredientName);
         item.setCategory(category);
 
-        IngredientItem ingredient = ingredientItemRepository.save(item);
-        category.getIngredients().add(ingredient);
-
-        return ingredient;
+        return ingredientItemRepository.save(item);
     }
 
     @Override
@@ -81,7 +78,7 @@ public class IngredientServiceImp implements IngredientService {
         }
 
         IngredientItem ingredientItem = item.get();
-        ingredientItem.setInStoke(!ingredientItem.isInStoke());
+        ingredientItem.setInStock(!ingredientItem.isInStock());
         return ingredientItemRepository.save(ingredientItem);
     }
 

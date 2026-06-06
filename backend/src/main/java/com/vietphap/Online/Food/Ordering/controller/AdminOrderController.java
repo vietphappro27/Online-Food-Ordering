@@ -29,7 +29,7 @@ public class AdminOrderController {
 
     @GetMapping("/order/restaurant/{id}")
     public ResponseEntity<List<Order>> getOrderHistory(
-            @PathVariable Long restaurantId,
+            @PathVariable("id") Long restaurantId,
             @RequestParam(required = false) String order_status,
             @RequestHeader("Authorization") String jwt) throws Exception {
 
@@ -41,7 +41,7 @@ public class AdminOrderController {
 
     @PutMapping("/order/{orderId}/{order_status}")
     public ResponseEntity<Order> updateOrderStatus(
-            @PathVariable Long id,
+            @PathVariable("orderId") Long id,
             @PathVariable String order_status,
             @RequestHeader("Authorization") String jwt) throws Exception {
 

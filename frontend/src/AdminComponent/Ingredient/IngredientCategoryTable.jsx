@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -13,7 +13,8 @@ import CreateIcon from "@mui/icons-material/Create";
 import IconButton from "@mui/material/IconButton";
 import Modal from "@mui/material/Modal";
 import CreateIngredientCategoryForm from "./CreateIngredientCategoryForm";
-const orders = [1, 1, 1, 1, 1, 1, 1, 1];
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredientCategory } from "../../component/State/Ingredients/Action";
 
 const style = {
   position: "absolute",
@@ -26,11 +27,24 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-
 const IngredientCategoryTable = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const dispatch = useDispatch();
+  const { restaurant, ingredients } = useSelector((store) => store);
+  const jwt = localStorage.getItem("jwt");
+
+  const restaurantId = restaurant.userRestaurant?.id;
+  useEffect(() => {
+    if (restaurantId) {
+      dispatch(getIngredientCategory({ id: restaurantId, jwt }));
+    }
+  }, [restaurantId, dispatch, jwt]);
+  if (!restaurantId) {
+    return null;
+  }
+
   return (
     <Box>
       <Card className='mt-1'>
@@ -53,15 +67,15 @@ const IngredientCategoryTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((row) => (
+              {ingredients.category.map((item) => (
                 <TableRow
-                  key={row.name}
+                  key={item.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component='th' scope='row'>
-                    {1}
+                    {item.id}
                   </TableCell>
-                  <TableCell align='right'>{"name"}</TableCell>
+                  <TableCell align='right'>{item.name}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

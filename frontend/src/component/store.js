@@ -15,7 +15,7 @@ const rooteReducer = combineReducers({
   cart: cartReducer,
   order: orderReducer,
   restaurantOrder: restaurantOrderReducer,
-  ingredient: ingredientReducer,
+  ingredients: ingredientReducer,
 });
 
 export const store = legacy_createStore(rooteReducer, applyMiddleware(thunk));
