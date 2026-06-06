@@ -23,7 +23,7 @@ export const registerUser = (reqData) => async (dispatch) => {
       reqData.userData,
     );
     if (data.jwt) localStorage.setItem("jwt", data.jwt);
-    if (data.role === "ROLE_RESTAURANT_OWNER") {
+    if (data.role === "ROLE_RESTAURANT_OWNER" || data.role === "ROLE_ADMIN") {
       reqData.navigate("/admin/restaurant");
     } else {
       reqData.navigate("/");
@@ -52,7 +52,7 @@ export const loginUser = (reqData) => async (dispatch) => {
       },
     });
     dispatch({ type: GET_USER_SUCCESS, payload: profileRes.data });
-    if (data.role === "ROLE_RESTAURANT_OWNER") {
+    if (data.role === "ROLE_RESTAURANT_OWNER" || data.role === "ROLE_ADMIN") {
       reqData.navigate("/admin/restaurant");
     } else {
       reqData.navigate("/");
@@ -74,7 +74,7 @@ export const getUser = (jwt) => async (dispatch) => {
     });
 
     dispatch({ type: GET_USER_SUCCESS, payload: data });
-    console.log("user profile", data);
+    console.log("getUser(action): ", data);
   } catch (error) {
     dispatch({ type: GET_USER_FAILURE, payload: error });
     console.error("Failed to get user", error);

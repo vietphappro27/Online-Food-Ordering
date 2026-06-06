@@ -13,21 +13,6 @@ import { categoryIngredient } from "../util/categoryIngredient";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "../State/Cart/Action";
 
-const demo = [
-  {
-    category: "carb",
-    ingredients: ["rice noodles"],
-  },
-  {
-    category: "protein",
-    ingredients: ["egg", "beef"],
-  },
-  {
-    category: "vegetable",
-    ingredients: ["onion", "cilantro"],
-  },
-];
-
 const MenuCard = ({ item }) => {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const dispatch = useDispatch();
@@ -53,7 +38,7 @@ const MenuCard = ({ item }) => {
       },
     };
     dispatch(addItemToCart(reqData));
-    console.log("reqData from handleAddItemToCart", reqData);
+    console.log("handleAddItemToCart: ", reqData);
   };
   return (
     <div>
@@ -67,7 +52,7 @@ const MenuCard = ({ item }) => {
             <div className='lg:flex items-center lg:gap-5'>
               <img
                 className='w-[7rem] h-[7rem] object-cover'
-                src={item?.image?.[0] || "/default-image.jpg"}
+                src={item?.images?.[0] || "/default-image.jpg"}
                 alt={item.name}
               />
               <div className='space-y-1 lg:space-y-5 lg:max-w-2xl'>
@@ -105,12 +90,7 @@ const MenuCard = ({ item }) => {
               )}
             </div>
             <div className='pt-5'>
-              <Button
-                // onClick={handleAddItemToCart}
-                variant='contained'
-                disabled={false}
-                type='submit'
-              >
+              <Button variant='contained' disabled={false} type='submit'>
                 {true ? "Add to Cart" : "Out Of Stock"}
               </Button>
             </div>

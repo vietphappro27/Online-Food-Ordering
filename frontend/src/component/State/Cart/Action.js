@@ -30,10 +30,10 @@ export const findCart = (token) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("find cart response", response.data);
+      console.log("findCart(action): ", response.data);
       dispatch({ type: FIND_CART_SUCCESS, payload: response.data });
     } catch (error) {
-      console.log("find cart error", error);
+      console.log("findCart(action): ", error);
       dispatch({ type: FIND_CART_FAILURE, payload: error.message });
     }
   };

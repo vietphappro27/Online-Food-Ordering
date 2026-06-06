@@ -24,7 +24,6 @@ const categories = ["Bun", "Pho", "Com", "Mi", "Banh Mi"];
 const foodTypes = [
   { label: "All", value: "all" },
   { label: "Vegetarian", value: "vegetarian" },
-  { label: "Non-Vegetarian", value: "non-vegetarian" },
   { label: "Seasonal", value: "seasonal" },
 ];
 
@@ -45,12 +44,11 @@ const RestaurantDetail = () => {
     console.log(e.target.value, e.target.name);
   };
 
-  const handleFilterCategory = (e, value) => {
-    setSelectedCategory(value);
-    console.log(e.target.value, e.target.name, value);
+  const handleFilterCategory = (e) => {
+    setSelectedCategory(e.target.value);
   };
 
-  console.log("restaurant nee: ", restaurant);
+  console.log("RestaurantDetail: ", restaurant);
 
   useEffect(() => {
     dispatch(getRestaurantById({ restaurantId: id, jwt }));
@@ -62,21 +60,9 @@ const RestaurantDetail = () => {
     const menuParams = {
       restaurantId: id,
       jwt,
-      vegetarian:
-        foodType === "vegetarian"
-          ? true
-          : foodType === "non-vegetarian"
-            ? false
-            : null,
-      noveg:
-        foodType === "non-vegetarian"
-          ? true
-          : foodType === "vegetarian"
-            ? false
-            : null,
-      seasonal:
-        foodType === "seasonal" ? true : foodType === "seasonal" ? false : null,
-      food_category: selectedCategory,
+      vegetarian: foodType === "vegetarian" ? true : null,
+      seasonal: foodType === "seasonal" ? true : null,
+      food_category: selectedCategory || null,
     };
 
     dispatch(getMenuItemsByRestaurantId(menuParams));
@@ -85,15 +71,13 @@ const RestaurantDetail = () => {
   return (
     <div className='px-5 lg:px-20'>
       <section>
-        <h3 className='text-gray-500 py-2 mt-10'>
-          Home/Vietnamese/Vietnamese food/3
-        </h3>
+        <h3 className='text-gray-500 py-2 mt-10'>Home/Restaurant/Detail</h3>
         <div>
           <Grid container spacing={2}>
             <Grid size={12}>
               <img
                 className='w-full h-[40vh] object-cover'
-                src='{restaurant.restaurant?.images[0]}'
+                src={restaurant.restaurant?.images[0]}
                 alt=''
               />
             </Grid>
@@ -101,14 +85,14 @@ const RestaurantDetail = () => {
             <Grid size={6}>
               <img
                 className='w-full h-[40vh] object-cover object-center'
-                src='{restaurant.restaurant?.images[1]}'
+                src={restaurant.restaurant?.images[1]}
                 alt=''
               />
             </Grid>
             <Grid size={6}>
               <img
                 className='w-full h-[40vh] object-cover object-center'
-                src='{restaurant.restaurant?.images[2]}'
+                src={restaurant.restaurant?.images[2]}
                 alt=''
               />
             </Grid>
@@ -173,6 +157,7 @@ const RestaurantDetail = () => {
                   name='food_category'
                   value={selectedCategory}
                 >
+                  <FormControlLabel value='' control={<Radio />} label='All' />
                   {restaurant.categories?.map((item) => (
                     <FormControlLabel
                       key={item.id}

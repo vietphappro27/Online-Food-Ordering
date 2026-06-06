@@ -69,15 +69,11 @@ public class FoodServiceImp implements FoodService {
     @Override
     public List<Food> getRestaurantFood(Long restaurantId,
             boolean isVegetarian,
-            boolean isNonveg,
             boolean isSeasonal,
             String foodCategory) throws Exception {
         List<Food> foods = foodRepository.findByRestaurantId(restaurantId);
         if (isVegetarian) {
             foods = filterByVegetarian(foods, isVegetarian);
-        }
-        if (isNonveg) {
-            foods = filterByNonveg(foods, isNonveg);
         }
         if (isSeasonal) {
             foods = filterBySeasonal(foods, isSeasonal);
@@ -101,15 +97,10 @@ public class FoodServiceImp implements FoodService {
 
     private List<Food> filterBySeasonal(List<Food> foods, boolean isSeasonal) {
         return foods.stream()
-                .filter(food -> food.isVegetarian() == isSeasonal)
+                .filter(food -> food.isSeasonal() == isSeasonal)
                 .collect(Collectors.toList());
     }
 
-    private List<Food> filterByNonveg(List<Food> foods, boolean isNonveg) {
-        return foods.stream()
-                .filter(food -> food.isVegetarian() == isNonveg)
-                .collect(Collectors.toList());
-    }
 
     private List<Food> filterByVegetarian(List<Food> foods, boolean isVegetarian) {
         return foods.stream()

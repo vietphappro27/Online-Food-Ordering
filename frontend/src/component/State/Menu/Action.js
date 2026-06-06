@@ -43,8 +43,6 @@ export const getMenuItemsByRestaurantId = (reqData) => {
       const params = {};
       if (reqData.vegetarian !== undefined && reqData.vegetarian !== null)
         params.vegetarian = reqData.vegetarian;
-      if (reqData.noveg !== undefined && reqData.noveg !== null)
-        params.noveg = reqData.noveg;
       if (reqData.seasonal !== undefined && reqData.seasonal !== null)
         params.seasonal = reqData.seasonal;
       if (

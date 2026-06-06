@@ -19,7 +19,6 @@ public interface FoodService {
     // public List<Food> getAllFood() throws Exception;
     public List<Food> getRestaurantFood(Long restaurantId,
             boolean isVegetarian,
-            boolean isNonveg,
             boolean isSeasonal,
             String foodCategory
 
