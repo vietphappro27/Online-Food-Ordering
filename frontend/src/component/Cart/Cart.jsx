@@ -47,7 +47,10 @@ const Cart = () => {
   const { cart, auth } = useSelector((store) => store);
   const dispatch = useDispatch();
 
-  const itemTotal = cart.cart?.total || 0;
+  const itemTotal = (cart.cartItems || []).reduce(
+    (sum, item) => sum + (item.totalPrice || 0),
+    0,
+  );
   const deliveryFee = itemTotal ? 33000 : 0;
   const platformFee = itemTotal ? 2000 : 0;
   const grandTotal = itemTotal + deliveryFee + platformFee;

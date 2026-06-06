@@ -50,7 +50,7 @@ public class CartController {
 
     @DeleteMapping("/cart-item/remove/{id}")
     public ResponseEntity<Cart> removeCartItemQuantity(
-            @PathVariable Long cartItemId,
+            @PathVariable("id") Long cartItemId,
             @RequestHeader("Authorization") String jwt) throws Exception {
 
         Cart cart = cartService.removeItemFromCart(cartItemId, jwt);

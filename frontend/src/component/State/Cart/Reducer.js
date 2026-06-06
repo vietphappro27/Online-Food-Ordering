@@ -27,25 +27,49 @@ const cartReducer = (state = initialState, action) => {
         cart: action.payload,
         cartItems: action.payload.items,
       };
-    case actionTypes.ADD_ITEM_TO_CART_SUCCESS:
+    case actionTypes.ADD_ITEM_TO_CART_SUCCESS: {
+      const exists = state.cartItems.some((item) => item.id === action.payload.id);
+      const cartItems = exists
+        ? state.cartItems.map((item) =>
+            item.id === action.payload.id ? action.payload : item,
+          )
+        : [...state.cartItems, action.payload];
+      const total = cartItems.reduce(
+        (sum, item) => sum + (item.totalPrice || 0),
+        0,
+      );
       return {
         ...state,
         loading: false,
-        cartItems: [...state.cartItems, action.payload],
+        cartItems,
+        cart: state.cart
+          ? { ...state.cart, items: cartItems, total }
+          : state.cart,
       };
-    case actionTypes.UPDATE_CART_ITEM_SUCCESS:
+    }
+    case actionTypes.UPDATE_CART_ITEM_SUCCESS: {
+      const cartItems = state.cartItems.map((item) =>
+        item.id === action.payload.id ? action.payload : item,
+      );
+      const total = cartItems.reduce(
+        (sum, item) => sum + (item.totalPrice || 0),
+        0,
+      );
       return {
         ...state,
         loading: false,
-        cartItems: state.cartItems.map((item) =>
-          item.id === action.payload.id ? action.payload : item,
-        ),
+        cartItems,
+        cart: state.cart
+          ? { ...state.cart, items: cartItems, total }
+          : state.cart,
       };
+    }
     case actionTypes.REMOVE_CART_ITEM_SUCCESS:
       return {
         ...state,
         loading: false,
-        cartItems: state.cartItems.filter((item) => item.id !== action.payload),
+        cart: action.payload,
+        cartItems: action.payload.items,
       };
     case actionTypes.FIND_CART_FAILURE:
     case actionTypes.UPDATE_CART_ITEM_FAILURE:

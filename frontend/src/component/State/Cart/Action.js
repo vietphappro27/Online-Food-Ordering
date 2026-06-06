@@ -99,13 +99,13 @@ export const removeCartItem = ({ cartItemId, jwt }) => {
   return async (dispatch) => {
     dispatch({ type: REMOVE_CART_ITEM_REQUEST });
     try {
-      const response = await api.delete(`/api/cart-item/${cartItemId}/remove`, {
+      const response = await api.delete(`/api/cart-item/remove/${cartItemId}`, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
       console.log("remove cart item response", response.data);
-      dispatch({ type: REMOVE_CART_ITEM_SUCCESS, payload: cartItemId });
+      dispatch({ type: REMOVE_CART_ITEM_SUCCESS, payload: response.data });
     } catch (error) {
       console.log("remove cart item error", error);
       dispatch({ type: REMOVE_CART_ITEM_FAILURE, payload: error.message });

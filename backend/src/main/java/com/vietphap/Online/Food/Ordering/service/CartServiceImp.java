@@ -86,12 +86,14 @@ public class CartServiceImp implements CartService {
         User user = userService.findUserByJwtToken(jwt);
         Cart cart = cartRepository.findByCustomerId(user.getId());
 
-        Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItemId);
-        if (!cartItemOptional.isPresent()) {
-            throw new Exception("Cart item not found with id: " + cartItemId);
-        }
-        CartItem item = cartItemOptional.get();
-        cart.getItems().remove(item);
+        CartItem itemToRemove = cart.getItems().stream()
+                .filter(item -> item.getId().equals(cartItemId))
+                .findFirst()
+                .orElseThrow(() -> new Exception("Cart item not found with id: " + cartItemId));
+
+        cart.getItems().remove(itemToRemove);
+        cartItemRepository.delete(itemToRemove);
+        cart.setTotal(calculateCartTotals(cart));
         return cartRepository.save(cart);
     }
 

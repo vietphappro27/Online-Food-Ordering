@@ -16,6 +16,7 @@ import { addItemToCart } from "../State/Cart/Action";
 const MenuCard = ({ item }) => {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
 
   const handleCheckBoxChange = (itemName) => {
     console.log("value");
@@ -29,16 +30,16 @@ const MenuCard = ({ item }) => {
   };
   const handleAddItemToCart = (e) => {
     e.preventDefault();
-    const reqData = {
-      token: localStorage.getItem("jwt"),
-      cartItem: {
-        foodId: item.id,
-        quantity: 1,
-        ingredients: selectedIngredients,
-      },
-    };
-    dispatch(addItemToCart(reqData));
-    console.log("handleAddItemToCart: ", reqData);
+    dispatch(
+      addItemToCart({
+        cartItem: {
+          foodId: item.id,
+          quantity: 1,
+          ingredients: selectedIngredients,
+        },
+        token: jwt,
+      }),
+    );
   };
   return (
     <div>

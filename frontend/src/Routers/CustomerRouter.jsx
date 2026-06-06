@@ -14,6 +14,8 @@ export const CustomerRouter = () => {
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/payment/fail' element={<Home />} />
+
         <Route path='/account/:register' element={<Home />} />
         <Route
           path='/restaurant/:city/:title/:id'

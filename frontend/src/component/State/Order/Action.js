@@ -7,22 +7,19 @@ import {
   GET_USER_ORDERS_REQUEST,
   GET_USER_ORDERS_SUCCESS,
   GET_USER_ORDERS_FAILURE,
-  GET_USER_NOTIFICATIONS_REQUEST,
-  GET_USER_NOTIFICATIONS_SUCCESS,
-  GET_USER_NOTIFICATIONS_FAILURE,
 } from "./ActionType";
 
 export const createOrder = (regData) => {
   return async (dispatch) => {
     dispatch({ type: CREATE_ORDER_REQUEST });
     try {
-      const {data} = await api.post(`/api/order/add`, regData.order, {
+      const { data } = await api.post(`/api/order/add`, regData.order, {
         headers: { Authorization: `Bearer ${regData.jwt}` },
       });
-      if(data.payment_url){
+      if (data.payment_url) {
         window.location.href = data.payment_url;
       }
-      console.log("c reate order", data);
+      console.log("create order", data);
       dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
     } catch (error) {
       console.log("create order error", error);

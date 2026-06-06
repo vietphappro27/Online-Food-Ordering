@@ -1,8 +1,5 @@
 import { GET_USER_FAILURE } from "../Authentification/ActionType";
 import {
-  GET_USER_NOTIFICATIONS_FAILURE,
-  GET_USER_NOTIFICATIONS_REQUEST,
-  GET_USER_NOTIFICATIONS_SUCCESS,
   GET_USER_ORDERS_FAILURE,
   GET_USER_ORDERS_REQUEST,
   GET_USER_ORDERS_SUCCESS,
@@ -13,7 +10,6 @@ import {
 
 const initialState = {
   orders: [],
-  notifications: [],
   loading: false,
   error: null,
 };
