@@ -39,15 +39,15 @@ public class AdminOrderController {
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
-    @PutMapping("/order/{orderId}/{order_status}")
+    @PutMapping("/order/{orderId}/{orderStatus}")
     public ResponseEntity<Order> updateOrderStatus(
             @PathVariable("orderId") Long id,
-            @PathVariable String order_status,
+            @PathVariable("orderStatus") String orderStatus,
             @RequestHeader("Authorization") String jwt) throws Exception {
 
         User user = userService.findUserByJwtToken(jwt);
 
-        Order order = orderService.updateOrder(id, order_status);
+        Order order = orderService.updateOrder(id, orderStatus);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 }

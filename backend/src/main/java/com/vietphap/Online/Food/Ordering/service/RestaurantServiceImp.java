@@ -69,7 +69,8 @@ public class RestaurantServiceImp implements RestaurantService {
 
     @Override
     public List<Restaurant> getAllRestaurant() throws Exception {
-        return restaurantRepository.findAll();
+        List<Restaurant> restaurant = restaurantRepository.findAll();
+        return restaurant;
     }
 
     @Override

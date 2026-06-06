@@ -28,7 +28,7 @@ const initialValues = {
 };
 
 const CreateRestaurantForm = () => {
-  const [uploadImage, setUploadImage] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
 
@@ -52,7 +52,7 @@ const CreateRestaurantForm = () => {
           instagram: values.instagram,
         },
         openingHours: values.openingHours,
-        images: uploadImage ? uploadImage : [],
+        images: values.images,
       };
       console.log("data --- ", data);
 
@@ -62,11 +62,11 @@ const CreateRestaurantForm = () => {
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    setUploadImage(file);
+    if (!file) return;
+    setIsUploading(true);
     const image = await uploadImageToCloudinary(file);
-    console.log("image --- ", image);
     formik.setFieldValue("images", [...formik.values.images, image]);
-    setUploadImage(false);
+    setIsUploading(false);
   };
 
   const handleRemoveImage = (index) => {
@@ -98,7 +98,7 @@ const CreateRestaurantForm = () => {
                 >
                   <AddPhotoAlternateIcon className='text-white' />
                 </span>
-                {uploadImage && (
+                {isUploading && (
                   <div
                     className='absolute left-0 top-0 right-0 
                   bottom-0 w-24 h-24 flex justify-center items-center'

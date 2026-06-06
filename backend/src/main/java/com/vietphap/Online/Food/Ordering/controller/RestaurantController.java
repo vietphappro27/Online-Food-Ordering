@@ -38,7 +38,7 @@ public class RestaurantController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Restaurant>> getAllRestaurnats(
+    public ResponseEntity<List<Restaurant>> getAllRestaurant(
             @RequestHeader(value = "Authorization", required = false) String jwt) throws Exception {
 
         List<Restaurant> restaurants = restaurantService.getAllRestaurant();
@@ -54,7 +54,6 @@ public class RestaurantController {
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
 
-    // @PutMapping({ "/{id}/add-favorite", "/{id}/add-favorites" })
     @PutMapping("/{id}/add-favorite")
     public ResponseEntity<RestaurantDTO> addToFavorites(
             @RequestHeader("Authorization") String jwt,

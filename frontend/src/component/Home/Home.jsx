@@ -6,8 +6,6 @@ import { getAllRestaurantAction } from "../State/Restaurant/Action";
 import { useDispatch, useSelector } from "react-redux";
 import { findCart } from "../State/Cart/Action";
 
-const restaurants = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-
 const Home = () => {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");

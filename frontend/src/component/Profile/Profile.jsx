@@ -5,7 +5,6 @@ import UserProfile from "./UserProfile";
 import Orders from "./Orders";
 import Address from "./Address";
 import Favorites from "./Favorites";
-import Events from "./Events";
 
 const Profile = () => {
   const [openSideBar, setOpenSideBar] = useState(false);
@@ -20,7 +19,6 @@ const Profile = () => {
           <Route path='/orders' element={<Orders />} />
           <Route path='/address' element={<Address />} />
           <Route path='/favorites' element={<Favorites />}></Route>
-          <Route path='/events' element={<Events />}></Route>
         </Routes>
       </div>
     </div>

@@ -7,7 +7,6 @@ import Order from "../Order/Order";
 import Menu from "../Menu/Menu";
 import FoodCategory from "../FoodCategory/FoodCategory";
 import Ingredient from "../Ingredient/Ingredient";
-import Event from "../Event/Event";
 import RestaurantDetail from "./RestaurantDetail";
 import CreateMenuForm from "../Menu/CreateMenuForm";
 
@@ -65,7 +64,6 @@ const Admin = () => {
             <Route path='/menu' element={<Menu />} />
             <Route path='/category' element={<FoodCategory />} />
             <Route path='/ingredient' element={<Ingredient />} />
-            <Route path='/event' element={<Event />} />
             <Route path='/detail' element={<RestaurantDetail />} />
             <Route path='/add-menu' element={<CreateMenuForm />} />
           </Routes>

@@ -94,7 +94,9 @@ public class OrderServiceImp implements OrderService {
         if (orderStatus.equals("OUT_FOR_DELIVERY")
                 || orderStatus.equals("DELIVERED")
                 || orderStatus.equals("COMPLETED")
-                || orderStatus.equals("PENDING")) {
+                || orderStatus.equals("PENDING")
+                || orderStatus.equals("CANCELLED")
+            ) {
             order.setOrderStatus(orderStatus);
             return orderRepository.save(order);
         } else {

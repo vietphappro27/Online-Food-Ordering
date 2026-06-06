@@ -4,7 +4,6 @@ import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import ShopTwoIcon from "@mui/icons-material/ShopTwo";
 import CategoryIcon from "@mui/icons-material/Category";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
-import EventIcon from "@mui/icons-material/Event";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import LogoutIcon from "@mui/icons-material/Logout";
 
@@ -22,7 +21,6 @@ const menu = [
   { title: "Menu", icon: <ShopTwoIcon />, path: "/menu" },
   { title: "Food Category", icon: <CategoryIcon />, path: "/category" },
   { title: "Ingredient", icon: <FastfoodIcon />, path: "/ingredient" },
-  { title: "Event", icon: <EventIcon />, path: "/event" },
   { title: "Detail", icon: <AdminPanelSettingsIcon />, path: "/detail" },
   { title: "Logout", icon: <LogoutIcon />, path: "/logout" },
 ];
